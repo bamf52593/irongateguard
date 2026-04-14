@@ -46,6 +46,9 @@
     "stripe": "^22.0.1"
   },
   "description": "",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
