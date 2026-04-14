@@ -1363,15 +1363,18 @@ function startBillingHealthScheduler() {
   return timer;
 }
 
-async function startServer() {
-  await initDb();
+async function initializeBackgroundServices() {
+  const dbAvailable = await initDb();
 
   if (shouldAutoMigrateDb()) {
-    try {
-      await runDatabaseMigrations();
-    } catch (error) {
-      console.error('DB migrations failed:', error.message);
-      process.exit(1);
+    if (dbAvailable) {
+      try {
+        await runDatabaseMigrations();
+      } catch (error) {
+        console.error('DB migrations failed:', error.message);
+      }
+    } else {
+      console.log('DB unavailable at startup, skipping migrations until database is reachable');
     }
   } else {
     console.log('DB auto-migrate disabled (set DB_AUTO_MIGRATE=true to enable)');
@@ -1379,12 +1382,18 @@ async function startServer() {
 
   startMeteredSyncScheduler();
   startBillingHealthScheduler();
+}
 
+function startServer() {
   app.listen(PORT, () => {
     console.log(`IronGate Dashboard server running on port ${PORT}`);
     console.log(`API Key: ${API_KEY}`);
     console.log('✓ Authentication endpoints loaded');
     console.log('✓ Billing endpoints loaded (Stripe integration active)');
+  });
+
+  initializeBackgroundServices().catch((error) => {
+    console.error('Background startup failed:', error.message);
   });
 }
 
