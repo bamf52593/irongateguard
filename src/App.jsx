@@ -227,10 +227,14 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [showAccessUnlockedBanner]);
 
+  const loggedInUser = (() => { try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; } })();
+  const isAdminUser = loggedInUser?.role === 'admin';
+
   const isPaywallActive = isAuthenticated
     && !subscriptionGate.loading
     && !subscriptionGate.isPaid
-    && !paywallBypassEnabled;
+    && !paywallBypassEnabled
+    && !isAdminUser;
 
   return (
     <BrowserRouter>
