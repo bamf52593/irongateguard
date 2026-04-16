@@ -227,8 +227,7 @@ function App() {
     return () => window.clearTimeout(timer);
   }, [showAccessUnlockedBanner]);
 
-  const loggedInUser = (() => { try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; } })();
-  const isAdminUser = loggedInUser?.role === 'admin';
+  const isAdminUser = (() => { try { return JSON.parse(localStorage.getItem('user') || '{}')?.role === 'admin'; } catch { return false; } })();
 
   const isPaywallActive = isAuthenticated
     && !subscriptionGate.loading

@@ -42,23 +42,28 @@ export default function Login() {
 
       notify(`Welcome back, ${data.user.full_name}!`, 'success');
 
-      // Route directly to the correct landing page to avoid paywall redirect flicker.
-      let destination = '/billing';
-      try {
-        const subResponse = await fetch(`${apiUrl}/billing/subscription`, {
-          headers: {
-            Authorization: `Bearer ${data.token}`
-          }
-        });
+      // Admins always go directly to the dashboard — no subscription check needed.
+      let destination = '/overview';
+      if (data.user.role !== 'admin') {
+        try {
+          const subResponse = await fetch(`${apiUrl}/billing/subscription`, {
+            headers: {
+              Authorization: `Bearer ${data.token}`
+            }
+          });
 
-        if (subResponse.ok) {
-          const subData = await subResponse.json();
-          const plan = subData?.subscription?.plan || 'free';
-          const status = subData?.subscription?.status || 'free';
-          destination = isPaidSubscription(plan, status) ? '/overview' : '/billing';
+          if (subResponse.ok) {
+            const subData = await subResponse.json();
+            const plan = subData?.subscription?.plan || 'free';
+            const status = subData?.subscription?.status || 'free';
+            destination = isPaidSubscription(plan, status) ? '/overview' : '/billing';
+          } else {
+            destination = '/billing';
+          }
+        } catch (subErr) {
+          console.warn('Subscription check failed after login, defaulting to billing route.', subErr);
+          destination = '/billing';
         }
-      } catch (subErr) {
-        console.warn('Subscription check failed after login, defaulting to billing route.', subErr);
       }
 
       // Give time for auth state to update before route transition.
