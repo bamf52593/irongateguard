@@ -3,16 +3,32 @@ import { Link } from 'react-router-dom';
 import { trackEvent } from '../utils/analytics';
 
 const planFit = {
-  starter: 'Best for lean security teams proving fast visibility and response value.',
-  growth: 'Best for scaling operations that need more users, assets, and analytics depth.',
-  scale: 'Best for enterprise environments needing broad coverage and executive-level readiness.'
+  starter: 'Perfect for small businesses and solo owners. Simple to set up, covers the essentials, no IT team required.',
+  growth: 'Great for growing businesses with a small IT team. More devices, more users, deeper visibility.',
+  scale: 'Built for large organizations and enterprise IT. Full coverage, advanced controls, unlimited devices.'
 };
+
+const quiz = [
+  { q: 'How many devices do you need to monitor?', answers: [{ label: 'Under 25', plan: 'starter' }, { label: '25 - 100', plan: 'growth' }, { label: 'Over 100', plan: 'scale' }] },
+  { q: 'How would you describe your team?', answers: [{ label: 'Just me or no IT staff', plan: 'starter' }, { label: 'Small IT team (1–5 people)', plan: 'growth' }, { label: 'Dedicated security/IT department', plan: 'scale' }] },
+  { q: 'What\'s your main goal?', answers: [{ label: 'Basic protection and peace of mind', plan: 'starter' }, { label: 'Visibility and faster incident response', plan: 'growth' }, { label: 'Full enterprise security operations', plan: 'scale' }] }
+];
 
 export default function ComparePlans() {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const isAuthenticated = !!localStorage.getItem('authToken');
+  const [quizAnswers, setQuizAnswers] = useState({});
+  const [showQuiz, setShowQuiz] = useState(false);
+
+  const quizResult = Object.values(quizAnswers).length === quiz.length
+    ? (() => {
+        const counts = {};
+        Object.values(quizAnswers).forEach((p) => { counts[p] = (counts[p] || 0) + 1; });
+        return Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+      })()
+    : null;
 
   useEffect(() => {
     trackEvent('plans_view', { source: 'compare_plans' }, { onceKey: 'plans_view' });
@@ -44,8 +60,40 @@ export default function ComparePlans() {
         <span className="landing-kicker">Pricing</span>
         <h1>Compare plans and choose the right starting point.</h1>
         <p>
-          Start with the level of coverage and operational depth your team needs now, then expand as your environment grows.
+          Not sure which plan fits? Answer 3 quick questions and we'll point you to the right one.
         </p>
+        <div className="landing-actions">
+          <button className="landing-button secondary" onClick={() => setShowQuiz((v) => !v)}>
+            {showQuiz ? 'Hide recommender' : 'Help me choose →'}
+          </button>
+        </div>
+        {showQuiz && (
+          <div style={{ marginTop: '24px' }}>
+            {quiz.map((item, i) => (
+              <div key={i} style={{ marginBottom: '20px' }}>
+                <p style={{ fontWeight: 'bold', marginBottom: '8px' }}>{item.q}</p>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                  {item.answers.map((a) => (
+                    <button
+                      key={a.label}
+                      onClick={() => setQuizAnswers((prev) => ({ ...prev, [i]: a.plan }))}
+                      className={`landing-button ${quizAnswers[i] === a.plan ? 'primary' : 'secondary'}`}
+                      style={{ fontSize: '0.85rem' }}
+                    >
+                      {a.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+            {quizResult && (
+              <div className="card" style={{ marginTop: '16px', borderColor: '#00ffff' }}>
+                <p style={{ color: '#00ffff', fontWeight: 'bold' }}>Recommended: {quizResult.charAt(0).toUpperCase() + quizResult.slice(1)}</p>
+                <p style={{ marginTop: '4px', opacity: 0.8 }}>{planFit[quizResult]}</p>
+              </div>
+            )}
+          </div>
+        )}
         <div className="landing-actions">
           <Link to={isAuthenticated ? '/billing' : '/signup'} className="landing-button primary" onClick={() => trackEvent('choose_plan_clicked', { source: 'plans_header', target: isAuthenticated ? 'billing' : 'signup' })}>{isAuthenticated ? 'Continue to Billing' : 'Start Free Account'}</Link>
           <Link to="/login" className="landing-button secondary">Sign In</Link>

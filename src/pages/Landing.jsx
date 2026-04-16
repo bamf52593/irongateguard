@@ -4,16 +4,16 @@ import { trackEvent } from '../utils/analytics';
 
 const valueBlocks = [
   {
-    title: 'Cut alert noise by prioritizing what matters',
-    body: 'IronGate highlights high-impact incidents first so operators stop wasting cycles on low-value noise.'
+    title: 'Know immediately when something is wrong',
+    body: 'IronGate shows you the most important alerts first — plain and simple — so you can act without needing a security background.'
   },
   {
-    title: 'Reduce mean-time-to-understand incidents',
-    body: 'Attack timelines, asset context, and live health data are unified so teams can act faster with confidence.'
+    title: 'See everything in one place',
+    body: 'All your devices, threats, and status checks in a single screen. No jumping between tools or spreadsheets.'
   },
   {
-    title: 'Prove operational readiness to leadership',
-    body: 'Track coverage, response trends, and platform reliability from one executive-ready command center.'
+    title: 'Grows with your business',
+    body: 'Start with a small setup and expand as you hire, add devices, or bring on a dedicated IT team. Nothing to reinstall.'
   }
 ];
 
@@ -25,41 +25,45 @@ const trustPoints = [
 
 const faqs = [
   {
-    q: 'How fast can a team get value?',
-    a: 'Most teams get signal in the first hour by connecting assets and reviewing live events in the dashboard.'
+    q: 'Do I need to be technical to use this?',
+    a: 'No. IronGate is built for business owners and managers too. The dashboard uses plain language, and setup takes minutes — no IT background needed.'
   },
   {
-    q: 'Do we need a long deployment project?',
-    a: 'No. You can start with a focused rollout, validate outcomes, then scale coverage gradually.'
+    q: 'How fast can I get started?',
+    a: 'Most people are up and monitoring within the same day they sign up. Connect your devices, pick a plan, and the dashboard is live.'
   },
   {
-    q: 'Can we start before committing?',
-    a: 'Yes. Create an account, validate fit with your workflow, then move to a paid plan when ready.'
+    q: 'What if my business grows?',
+    a: 'Just upgrade your plan. Your data, devices, and settings stay exactly as they are. No migration, no reinstall.'
+  },
+  {
+    q: 'Do we need a long IT project?',
+    a: 'No. Start small with one location or team, see the value, then expand when you\'re ready.'
   }
 ];
 
 const testimonials = [
   {
-    quote: 'IronGate gave our operations team one place to see risk, asset health, and action priority without bouncing between tools.',
-    author: 'Director of Security Operations',
-    company: 'Regional Infrastructure Provider'
+    quote: 'I\'m a business owner, not an IT person. IronGate was the first security tool I actually understood on day one.',
+    author: 'Owner',
+    company: 'Local Retail Chain'
   },
   {
-    quote: 'The dashboard changed our incident handoff quality. Leadership now sees the same reality the response team sees.',
-    author: 'Head of Platform Reliability',
-    company: 'Industrial Systems Operator'
+    quote: 'We have one IT person for 40 staff. IronGate lets him watch everything without burning out on manual checks.',
+    author: 'Operations Manager',
+    company: 'Regional Service Company'
   },
   {
-    quote: 'We moved from reactive triage to controlled response because the product makes context visible immediately.',
-    author: 'Security Program Lead',
-    company: 'Connected Manufacturing Group'
+    quote: 'Our security team uses it for deep analysis. Our execs use it to see if we\'re protected. Same tool, works for both.',
+    author: 'Head of IT',
+    company: 'Mid-size Manufacturing Company'
   }
 ];
 
 const proofSignals = [
-  'Persistent incident history and evidence trail',
-  'Role-based response actions for operators and admins',
-  'Fast rollout path from sign-up to live monitoring'
+  'Works for solo owners, growing teams, and enterprise IT departments',
+  'Plain-English alerts — no security degree required',
+  'Up and running in minutes, not months'
 ];
 
 export default function Landing() {
@@ -109,10 +113,11 @@ export default function Landing() {
       <section className="landing-hero">
         <div className="landing-copy">
           <span className="landing-kicker">Security operations that drive business confidence</span>
-          <h1>Stop guessing during incidents. See risk, act faster, and prove control.</h1>
+          <span className="landing-kicker">Protects businesses of every size — no IT background needed</span>
+          <h1>Know your business is protected. Without needing an IT degree.</h1>
           <p>
-            IronGate gives your team one operational view for device visibility, system health,
-            threat signals, and response execution so every shift can detect and resolve issues faster.
+            Whether you're a shop owner with 10 devices or an enterprise with hundreds — IronGate watches
+            your network, catches threats early, and shows you what matters in plain English.
           </p>
           <div className="landing-actions">
             <Link to="/signup" className="landing-button primary" onClick={() => trackEvent('start_free_clicked', { source: 'landing_hero' })}>Start Free Account</Link>
@@ -145,7 +150,7 @@ export default function Landing() {
       </section>
 
       <section className="card landing-faq">
-        <h2>Why teams trust IronGate</h2>
+        <h2>Built for every business, every IT level</h2>
         <div className="landing-trust-strip">
           {proofSignals.map((item) => (
             <p key={item}>{item}</p>
@@ -163,11 +168,12 @@ export default function Landing() {
       </section>
 
       <section id="plans" className="card landing-pricing-preview">
-        <h2>Start small, scale with confidence</h2>
+        <h2>Pick the plan that fits your size — upgrade anytime</h2>
         <div className="landing-outcome-list">
           <p><strong>Starter:</strong> Fast launch for lean teams needing immediate operational visibility.</p>
-          <p><strong>Growth:</strong> Expanded capacity and analytics for maturing security operations.</p>
-          <p><strong>Scale:</strong> Full enterprise-grade coverage with room for complex environments.</p>
+          <p><strong>Starter:</strong> Perfect for small businesses and solo owners. Simple setup, essential protection.</p>
+          <p><strong>Growth:</strong> For growing businesses with a small IT team. More devices, deeper insights.</p>
+          <p><strong>Scale:</strong> For large organizations and enterprise IT teams. Full coverage, advanced controls.</p>
         </div>
         <div className="landing-actions" style={{ marginTop: '20px' }}>
           <Link to="/signup" className="landing-button primary" onClick={() => trackEvent('start_free_clicked', { source: 'pricing_preview' })}>Start Free Account</Link>
@@ -176,7 +182,7 @@ export default function Landing() {
       </section>
 
       <section className="card landing-faq">
-        <h2>Questions buyers ask</h2>
+        <h2>Common questions</h2>
         <div className="landing-faq-grid">
           {faqs.map((item) => (
             <article key={item.q}>
