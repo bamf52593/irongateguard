@@ -16,4 +16,4 @@ Disallow: /billing
 Disallow: /settings
 Disallow: /welcome
 
-Sitemap: https://codie-blondell-1.onrender.com/sitemap.xml
+Sitemap: https://irongateguard.com/sitemap.xml
