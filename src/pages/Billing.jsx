@@ -31,6 +31,7 @@ const BillingPage = () => {
     users: 0,
     features: []
   };
+  const isAdminReviewMode = isAdmin() && subscription?.isAdminBypass;
 
   useEffect(() => {
     trackEvent('billing_view', { source: 'billing_page' }, { onceKey: 'billing_view' });
@@ -361,9 +362,13 @@ const BillingPage = () => {
       )}
 
       {!stripeConfigured && (
-        isAdmin() ? (
+        isAdminReviewMode ? (
+          <div className="billing-error" style={{ background: 'rgba(59,130,246,0.12)', borderColor: '#3b82f6', color: '#bfdbfe' }}>
+            <strong>Admin review mode:</strong> Stripe billing is offline, so customer payment actions are hidden. You still have full admin access to review the rest of the site.
+          </div>
+        ) : isAdmin() ? (
           <div className="billing-error" style={{ background: 'rgba(245,158,11,0.1)', borderColor: '#f59e0b', color: '#b45309' }}>
-            <strong>Admin note:</strong> Stripe is not configured yet. Customers cannot subscribe until you add <code>STRIPE_SECRET_KEY</code> and <code>STRIPE_PUBLIC_KEY</code> in the Render dashboard Environment settings. This page still works for admin review.
+            <strong>Admin note:</strong> Stripe is not configured yet. Customers cannot subscribe until you add <code>STRIPE_SECRET_KEY</code> and <code>STRIPE_PUBLIC_KEY</code> in the Render dashboard Environment settings.
           </div>
         ) : (
           <div className="billing-error">
@@ -382,7 +387,7 @@ const BillingPage = () => {
       )}
 
       {/* Management Options */}
-      {subscription && subscription.status !== 'free' && (
+      {subscription && subscription.status !== 'free' && !isAdminReviewMode && (
         <div className="billing-management">
           <h2>Manage Subscription</h2>
           <div className="management-actions">
@@ -454,7 +459,7 @@ const BillingPage = () => {
                   Renews on {new Date(subscription.currentPeriodEnd).toLocaleDateString()}
                 </div>
               )}
-              {subscription.status !== 'free' && (
+              {subscription.status !== 'free' && !isAdminReviewMode && (
                 <button className="cancel-btn" onClick={handleCancel} disabled={actionInProgress !== null}>
                   {actionInProgress === 'cancel' ? 'Canceling...' : 'Cancel Subscription'}
                 </button>
@@ -541,12 +546,19 @@ const BillingPage = () => {
                 {subscription?.plan === plan.key ? (
                   <div>
                     <button className="action-btn active" disabled>
-                      Current Plan
+                      {isAdminReviewMode ? 'Admin Review Access' : 'Current Plan'}
                     </button>
                     {trialDaysRemaining !== null && trialDaysRemaining > 0 && (
                       <p className="trial-notice">Trial ends in {trialDaysRemaining} days</p>
                     )}
+                    {isAdminReviewMode && (
+                      <p className="trial-notice">Billing actions are disabled for the internal admin account.</p>
+                    )}
                   </div>
+                ) : isAdminReviewMode ? (
+                  <button className="action-btn active" disabled>
+                    Customer Billing Hidden
+                  </button>
                 ) : subscription?.status === 'free' ? (
                   <div style={{ display: 'grid', gap: '0.5rem' }}>
                     <button
