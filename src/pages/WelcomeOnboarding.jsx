@@ -1,8 +1,6 @@
-import React from 'react';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const steps = [
 const paths = {
   beginner: {
     label: 'I\'m new to this',
