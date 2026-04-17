@@ -456,6 +456,99 @@ body::before {
   white-space: pre-wrap;
 }
 
+.setup-builder-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.setup-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.setup-field span {
+  color: #dcefff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.setup-field input,
+.setup-field select {
+  border: 1px solid rgba(0, 255, 255, 0.22);
+  background: rgba(4, 10, 16, 0.95);
+  color: #ecf8ff;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.setup-field input:focus,
+.setup-field select:focus {
+  outline: 2px solid rgba(0, 255, 255, 0.35);
+  outline-offset: 1px;
+}
+
+.advanced-setup {
+  margin: 4px 0 12px;
+  border: 1px solid rgba(0, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 10px;
+  background: rgba(3, 13, 21, 0.55);
+}
+
+.advanced-setup summary {
+  cursor: pointer;
+  color: #dcefff;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.advanced-setup .snippet-copy {
+  margin-top: 4px;
+}
+
+.quickstart-steps {
+  margin-top: 6px;
+}
+
+.generated-command-block {
+  margin-top: 12px;
+}
+
+.snippet-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.setup-hint {
+  margin-top: 12px;
+  color: #bdd2e4;
+  font-size: 13px;
+}
+
+.setup-hint strong {
+  color: #f4fbff;
+}
+
+.refresh-devices-button {
+  margin-top: 10px;
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  background: rgba(0, 255, 255, 0.1);
+  color: #e8fbff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.refresh-devices-button:hover {
+  background: rgba(0, 255, 255, 0.18);
+}
+
 /* Metrics */
 .metric {
   font-size: 36px;
