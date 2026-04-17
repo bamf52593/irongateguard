@@ -274,7 +274,10 @@ export default function Devices() {
               <div className="snippet-block">
                 <div className="snippet-header">
                   <h3>Windows (PowerShell)</h3>
-                  <button type="button" className="snippet-copy" onClick={() => copyText('Windows command', windowsCommand)}>Copy</button>
+                  <div className="snippet-actions">
+                    <button type="button" className="snippet-copy" onClick={() => copyText('Windows command', windowsCommand)}>Copy</button>
+                    <button type="button" className="snippet-copy" onClick={() => downloadScript(windowsCommand, 'windows')}>Download</button>
+                  </div>
                 </div>
                 <pre>{windowsCommand}</pre>
               </div>
@@ -282,7 +285,10 @@ export default function Devices() {
               <div className="snippet-block">
                 <div className="snippet-header">
                   <h3>Mac/Linux (Terminal)</h3>
-                  <button type="button" className="snippet-copy" onClick={() => copyText('Mac/Linux command', macLinuxCommand)}>Copy</button>
+                  <div className="snippet-actions">
+                    <button type="button" className="snippet-copy" onClick={() => copyText('Mac/Linux command', macLinuxCommand)}>Copy</button>
+                    <button type="button" className="snippet-copy" onClick={() => downloadScript(macLinuxCommand, 'maclinux')}>Download</button>
+                  </div>
                 </div>
                 <pre>{macLinuxCommand}</pre>
               </div>
@@ -329,3 +335,4 @@ export default function Devices() {
     </div>
   );
 }
+
