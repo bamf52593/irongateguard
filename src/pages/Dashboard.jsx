@@ -16,6 +16,15 @@ const statDisplayLabels = {
   'System Health': 'Platform Availability'
 };
 
+// Utility to check admin status from localStorage
+function isAdminUser() {
+  try {
+    return JSON.parse(localStorage.getItem('user') || '{}')?.role === 'admin';
+  } catch {
+    return false;
+  }
+}
+
 export default function Dashboard() {
   const [dashboard, setDashboard] = useState(null);
   const [events, setEvents] = useState([]);
@@ -165,6 +174,11 @@ export default function Dashboard() {
     <div className="page">
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 16 }}>
         <DownloadButton />
+        {isAdminUser() && (
+          <span style={{ marginLeft: 16, color: '#00bfae', fontWeight: 'bold', alignSelf: 'center' }}>
+            (Admin: Download available)
+          </span>
+        )}
       </div>
       <h1>Overview</h1>
       <div className="viking-banner">

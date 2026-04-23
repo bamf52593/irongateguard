@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
 
-export default function DownloadButton({ defaultApiKey = '', defaultOs = 'windows' }) {
-  const [apiKey, setApiKey] = useState(defaultApiKey);
-  const [os, setOs] = useState(defaultOs);
+import React from 'react';
+
+export default function DownloadButton({ defaultApiKey = 'test-key' }) {
+  // Auto-detect OS
+  const getOs = () => {
+    const platform = window.navigator.platform.toLowerCase();
+    if (platform.includes('win')) return 'windows';
+    if (platform.includes('mac') || platform.includes('linux')) return 'maclinux';
+    return 'windows'; // fallback
+  };
+  const os = getOs();
+  const apiKey = defaultApiKey;
 
   const apiBase = (import.meta.env.VITE_API_URL || `${window.location.origin}/v1`).replace(/\/$/, '');
   const sentinelId = 'office-device'; // fallback global default
@@ -41,20 +49,14 @@ export default function DownloadButton({ defaultApiKey = '', defaultOs = 'window
 
   const activeCommand = os === 'windows' ? windowsCommand : macLinuxCommand;
 
+  // Single button, auto-detects everything
   return (
     <div className="global-download-btn">
-      <input
-        type="text"
-        value={apiKey}
-        onChange={e => setApiKey(e.target.value)}
-        placeholder="API key"
-        style={{ width: 120, marginRight: 8 }}
-      />
-      <select value={os} onChange={e => setOs(e.target.value)} style={{ marginRight: 8 }}>
-        <option value="windows">Windows</option>
-        <option value="maclinux">Mac/Linux</option>
-      </select>
-      <button type="button" onClick={() => downloadScript(activeCommand, os)}>
+      <button
+        type="button"
+        onClick={() => downloadScript(activeCommand, os)}
+        style={{ padding: '0.5em 1.5em', fontSize: '1.1em' }}
+      >
         Download Setup Script
       </button>
     </div>
