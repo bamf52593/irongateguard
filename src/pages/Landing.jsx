@@ -17,6 +17,24 @@ const valueBlocks = [
   }
 ];
 
+const howItWorksSteps = [
+  {
+    step: '01',
+    title: 'Connect Your Environment',
+    body: 'Attach your locations, devices, and core operational signals in minutes with guided onboarding.'
+  },
+  {
+    step: '02',
+    title: 'Set Smart Guardrails',
+    body: 'Define who can act, which thresholds matter, and how incidents should escalate before they become costly.'
+  },
+  {
+    step: '03',
+    title: 'Operate With Confidence',
+    body: 'Use one command center for live status, response workflows, and executive-level visibility.'
+  }
+];
+
 const trustPoints = [
   'Live system telemetry and security events in one interface',
   'Built-in billing, usage governance, and operational controls',
@@ -66,6 +84,54 @@ const proofSignals = [
   'Up and running in minutes, not months'
 ];
 
+const trustSignals = [
+  {
+    title: 'Operational Hardening',
+    body: 'Continuous checks monitor critical platform paths and surface drift before it affects customers.'
+  },
+  {
+    title: 'Audit-Ready Controls',
+    body: 'Action trails, role-aware access, and billing governance support internal and external compliance reviews.'
+  },
+  {
+    title: 'Reliable Alerting',
+    body: 'Health transitions and metered sync safeguards reduce silent failures and improve incident response speed.'
+  }
+];
+
+const dashboardPreviewItems = [
+  'Live threat and health timeline with severity prioritization',
+  'Revenue and billing intelligence tied to usage and plan data',
+  'Role-specific views for owners, operators, analysts, and support'
+];
+
+const footerColumns = [
+  {
+    heading: 'Platform',
+    links: [
+      { label: 'Features', to: '/dashboard' },
+      { label: 'Plans', to: '/plans' },
+      { label: 'System Health', to: '/health' }
+    ]
+  },
+  {
+    heading: 'Resources',
+    links: [
+      { label: 'API Keys', to: '/api-keys' },
+      { label: 'Events', to: '/events' },
+      { label: 'Settings', to: '/settings' }
+    ]
+  },
+  {
+    heading: 'Company',
+    links: [
+      { label: 'Book Demo', to: '/demo-request' },
+      { label: 'Login', to: '/login' },
+      { label: 'Create Account', to: '/signup' }
+    ]
+  }
+];
+
 export default function Landing() {
   const [demoForm, setDemoForm] = useState({
     fullName: '',
@@ -110,6 +176,16 @@ export default function Landing() {
 
   return (
     <div className="page landing-page">
+      <section className="landing-sticky-cta" aria-label="Primary website actions">
+        <div className="landing-sticky-inner">
+          <p>IronGate Guard: Security operations with business context.</p>
+          <div className="landing-actions">
+            <Link to="/signup" className="landing-button primary" onClick={() => trackEvent('sticky_start_free_clicked', { source: 'sticky_header' })}>Start Free</Link>
+            <Link to="/demo-request" className="landing-button secondary" onClick={() => trackEvent('sticky_book_demo_clicked', { source: 'sticky_header' })}>Book Demo</Link>
+          </div>
+        </div>
+      </section>
+
       <section className="landing-hero">
         <div className="landing-copy">
           <span className="landing-kicker">Security operations that drive business confidence</span>
@@ -145,6 +221,64 @@ export default function Landing() {
               <strong>Better accountability</strong>
               <span>Audit-ready actions and operational reporting improve stakeholder trust.</span>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="card landing-how-it-works" id="how-it-works">
+        <h2>How it works</h2>
+        <div className="landing-how-grid">
+          {howItWorksSteps.map((item) => (
+            <article key={item.step} className="landing-how-card">
+              <span>{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="card landing-security-trust" id="security-trust">
+        <h2>Security trust by design</h2>
+        <p>Built to keep teams fast without sacrificing control, reliability, or accountability.</p>
+        <div className="landing-trust-grid">
+          {trustSignals.map((item) => (
+            <article key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="card landing-dashboard-preview" id="dashboard-preview">
+        <div>
+          <h2>Dashboard preview</h2>
+          <p>A single operational cockpit designed for both fast response and strategic planning.</p>
+          <div className="landing-dashboard-points">
+            {dashboardPreviewItems.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
+          </div>
+        </div>
+        <div className="landing-dashboard-mock" role="img" aria-label="Sample dashboard layout preview">
+          <div className="landing-dashboard-head">
+            <strong>Live Operations Overview</strong>
+            <span>Updated just now</span>
+          </div>
+          <div className="landing-dashboard-widgets">
+            <article>
+              <h3>Threat Pressure</h3>
+              <p>Moderate</p>
+            </article>
+            <article>
+              <h3>System Health</h3>
+              <p>99.98%</p>
+            </article>
+            <article>
+              <h3>Response SLA</h3>
+              <p>6 min avg</p>
+            </article>
           </div>
         </div>
       </section>
@@ -253,6 +387,23 @@ export default function Landing() {
           {demoStatus && <p className="landing-demo-status">{demoStatus}</p>}
         </form>
       </section>
+
+      <footer className="landing-footer">
+        <div className="landing-footer-brand">
+          <h2>IronGate Guard</h2>
+          <p>Business-first security operations platform for growing teams and enterprise environments.</p>
+        </div>
+        <div className="landing-footer-columns">
+          {footerColumns.map((column) => (
+            <section key={column.heading}>
+              <h3>{column.heading}</h3>
+              {column.links.map((link) => (
+                <Link key={link.label} to={link.to}>{link.label}</Link>
+              ))}
+            </section>
+          ))}
+        </div>
+      </footer>
     </div>
   );
 }
