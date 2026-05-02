@@ -11,13 +11,13 @@ services:
       - key: NODE_ENV
         value: production
       - key: DB_SSL
-        value: true
+        value: "true"
       - key: DB_AUTO_MIGRATE
-        value: true
+        value: "true"
       - key: BILLING_HEALTH_CHECKS_ENABLED
-        value: true
+        value: "true"
       - key: LIVE_BILLING_REQUIRE_LIVE_KEYS
-        value: true
+        value: "true"
       - key: BILLING_API_BASE
         value: https://irongateguard.com/v1
       - key: DATABASE_URL
@@ -47,16 +47,10 @@ services:
       - key: JWT_SECRET
         generateValue: true
 
+
+
 databases:
   - name: irongate-db
     plan: starter
     databaseName: irongate
     user: irongate
-
-- type: web
-    name: irongate-frontend
-    env: static
-    buildCommand: npm run build
-    staticPublishPath: dist
-    pullRequestPreviewsEnabled: true
-    autoDeploy: true
