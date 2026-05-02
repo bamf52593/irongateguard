@@ -16,22 +16,22 @@ export default function DownloadButton({ defaultApiKey = 'test-key' }) {
   const sentinelId = 'office-device'; // fallback global default
 
   const windowsCommand = [
-    `$env:irongateguardguard_API_BASE = "${apiBase}"`,
-    `$env:irongateguardguard_API_KEY = "${apiKey || 'test-key'}"`,
-    `$env:irongateguardguard_SENTINEL_ID = "${sentinelId}"`,
+    `$env:irongateguard_API_BASE = "${apiBase}"`,
+    `$env:irongateguard_API_KEY = "${apiKey || 'test-key'}"`,
+    `$env:irongateguard_SENTINEL_ID = "${sentinelId}"`,
     'npm run sentinel'
   ].join('\n');
 
   const macLinuxCommand = [
-    `export irongateguardguard_API_BASE="${apiBase}"`,
-    `export irongateguardguard_API_KEY="${apiKey || 'test-key'}"`,
-    `export irongateguardguard_SENTINEL_ID="${sentinelId}"`,
+    `export irongateguard_API_BASE="${apiBase}"`,
+    `export irongateguard_API_KEY="${apiKey || 'test-key'}"`,
+    `export irongateguard_SENTINEL_ID="${sentinelId}"`,
     'npm run sentinel'
   ].join('\n');
 
   const downloadScript = (value, osType) => {
     try {
-      const filename = osType === 'windows' ? 'irongateguardguard-setup.ps1' : 'irongateguardguard-setup.sh';
+      const filename = osType === 'windows' ? 'irongateguard-setup.ps1' : 'irongateguard-setup.sh';
       const blob = new Blob([`${value}\n`], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -51,17 +51,14 @@ export default function DownloadButton({ defaultApiKey = 'test-key' }) {
 
   // Single button, auto-detects everything
   return (
-    <div className="global-download-btn" style={{ border: '2px solid red', padding: '1em', margin: '1em 0' }}>
-      <div style={{ color: 'red', fontWeight: 'bold', marginBottom: '0.5em' }}>
-        [DEBUG] DownloadButton Rendered
-      </div>
+    <div className="global-download-btn">
       <button
         type="button"
         onClick={() => downloadScript(activeCommand, os)}
-        style={{ padding: '0.5em 1.5em', fontSize: '1.1em' }}
       >
         Download Setup Script
       </button>
     </div>
   );
 }
+
